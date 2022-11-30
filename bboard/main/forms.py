@@ -3,7 +3,7 @@ from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
 from .models import AdvUser
-from .apps import user_registered
+# from .apps import user_registered
 
 
 class ChangeUserInfoForm(forms.ModelForm):
@@ -32,7 +32,7 @@ class RegisterUserForm(forms.ModelForm):
         label='Пароль',
         widget=forms.PasswordInput,
         help_text=password_validation.password_validators_help_text_html(),
-        validators=password_validation.validate_password
+        validators=(password_validation.validate_password, )
     )
     password2 = forms.CharField(
         label='Пароль повторно',
