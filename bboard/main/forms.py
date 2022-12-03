@@ -1,9 +1,11 @@
 from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from .models import AdvUser
-# from .apps import user_registered
+from .apps import user_registered
 
 
 class ChangeUserInfoForm(forms.ModelForm):
@@ -32,7 +34,7 @@ class RegisterUserForm(forms.ModelForm):
         label='Пароль',
         widget=forms.PasswordInput,
         help_text=password_validation.password_validators_help_text_html(),
-        validators=(password_validation.validate_password, )
+        validators=(password_validation.validate_password,)
     )
     password2 = forms.CharField(
         label='Пароль повторно',
@@ -40,6 +42,8 @@ class RegisterUserForm(forms.ModelForm):
         help_text='Повторите пароль'
     )
 
+    # Переопределяем метод clean для валидации формы
+    # Проверяем совпадают или нет 1 и 2 пароли
     def clean(self):
         super().clean()
         password1 = self.cleaned_data['password1']
@@ -63,6 +67,7 @@ class RegisterUserForm(forms.ModelForm):
         user.is_activated = False
         if commit:
             user.save()
+        # Отсылаем письмо пользователю для активации аккаунта
         user_registered.send(RegisterUserForm, instabce=user)
         return user
 
@@ -77,3 +82,10 @@ class RegisterUserForm(forms.ModelForm):
             'last_name',
             'send_messages'
         )
+
+
+class RegisterUserView(CreateView):
+    model = AdvUser
+    template_name = 'main/register_user.html'
+    form_class = RegisterUserForm
+    success_url = reverse_lazy('main:register_done')
