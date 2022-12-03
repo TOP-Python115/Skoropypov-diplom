@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView
 
 from .models import AdvUser
 from .apps import user_registered
@@ -82,14 +80,3 @@ class RegisterUserForm(forms.ModelForm):
             'last_name',
             'send_messages'
         )
-
-
-class RegisterUserView(CreateView):
-    model = AdvUser
-    template_name = 'main/register_user.html'
-    form_class = RegisterUserForm
-    success_url = reverse_lazy('main:register_done')
-
-
-class RegisterDoneView(TemplateView):
-    template_name = 'main/register_done.html'

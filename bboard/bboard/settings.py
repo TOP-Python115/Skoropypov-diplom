@@ -126,3 +126,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Моя модель пользователя
 AUTH_USER_MODEL = 'main.AdvUser'
+# TCP-порт для SMTP-сервера
+EMAIL_PORT = 1025

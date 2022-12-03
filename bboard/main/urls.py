@@ -9,12 +9,18 @@ from .views import (
     ChangeUserInfoView,
     BBPasswordChangeView,
     RegisterUserView,
-    RegisterDoneView
+    RegisterDoneView,
+    user_activate
 )
 
 app_name = 'main'
 
 urlpatterns = [
+    path(
+        'accounts/register/activate/<str:sing>/',
+        user_activate,
+        name='register_activate'
+    ),
     path(
         'accounts/register/done/',
         RegisterDoneView.as_view(),

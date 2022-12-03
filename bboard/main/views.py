@@ -1,3 +1,4 @@
+# Я хер знает, как привести все это в читаемый вид. Вот эти все импорты
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
@@ -7,10 +8,12 @@ from django.shortcuts import render, get_object_or_404
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, TemplateView, CreateView
+from django.core.signing import BadSignature
 
-from .forms import ChangeUserInfoForm
+from .forms import ChangeUserInfoForm, RegisterUserForm
 from .models import AdvUser
+from .utilities import signer
 
 
 # Create your views here.
@@ -71,3 +74,19 @@ class RegisterUserView(CreateView):
 
 class RegisterDoneView(TemplateView):
     template_name = 'main/register_done.html'
+
+
+def user_activate(request, sign):
+    try:
+        username = signer.unsign(sign)
+    except BadSignature:
+        return render(request, 'main/bad_signature.html')
+    user = get_object_or_404(AdvUser, username=username)
+    if user.is_activated:
+        template = 'main/user_is_activated.html'
+    else:
+        template = 'main/activation_done.html'
+        user.is_active = True
+        user.is_activated = True
+        user.save()
+    return render(request, template)
