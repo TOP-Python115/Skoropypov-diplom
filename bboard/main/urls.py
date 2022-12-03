@@ -7,12 +7,16 @@ from .views import (
     profile,
     BBLogoutView,
     ChangeUserInfoView,
-    BBPasswordChangeView
+    BBPasswordChangeView,
+    RegisterUserView,
+    RegisterDoneView
 )
 
 app_name = 'main'
 
 urlpatterns = [
+    path('accounts/register/done/', RegisterDoneView.as_view(), name='register_done'),
+    path('account/register', RegisterUserView.as_view(), name='register'),
     path('accounts/logout/', BBLogoutView.as_view(), name='logout'),
     path('accounts/password/change/', BBPasswordChangeView.as_view(), name='password_change.html'),
     path('accounts/change/', ChangeUserInfoView.as_view(), name='profile_change'),

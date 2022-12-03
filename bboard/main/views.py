@@ -61,3 +61,13 @@ class BBPasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChan
     success_url = reverse_lazy('main:profile')
     success_message = 'Пароль пользователя изменен'
 
+
+class RegisterUserView(CreateView):
+    model = AdvUser
+    template_name = 'main/register_user.html'
+    form_class = RegisterUserForm
+    success_url = reverse_lazy('main:register_done')
+
+
+class RegisterDoneView(TemplateView):
+    template_name = 'main/register_done.html'
