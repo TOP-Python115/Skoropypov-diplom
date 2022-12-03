@@ -17,7 +17,7 @@ app_name = 'main'
 
 urlpatterns = [
     path(
-        'accounts/register/activate/<str:sing>/',
+        'accounts/register/activate/<str:sign>/',
         user_activate,
         name='register_activate'
     ),
