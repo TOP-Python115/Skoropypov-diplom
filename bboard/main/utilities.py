@@ -1,3 +1,6 @@
+from datetime import datetime
+from os.path import splitext
+
 from django.template.loader import render_to_string
 from django.core.signing import Signer
 
@@ -31,3 +34,7 @@ def send_activation_notification(user):
         subject,
         body_text
     )
+
+
+def get_timestamp_path(instance, filename):
+    return f'{datetime.now().timestamp()}{splitext(filename)[1]}'

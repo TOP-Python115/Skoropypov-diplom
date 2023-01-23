@@ -11,7 +11,8 @@ from .views import (
     RegisterUserView,
     RegisterDoneView,
     user_activate,
-    DeleteUserView
+    DeleteUserView,
+    by_rubric
 )
 
 app_name = 'main'
@@ -61,6 +62,11 @@ urlpatterns = [
         'accounts/login/',
         BBLoginView.as_view(),
         name='login'
+    ),
+    path(
+        '<int:pk>/',
+        by_rubric,
+        name='by_rubric'
     ),
     path(
         '<str:page>/',
