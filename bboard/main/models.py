@@ -16,6 +16,11 @@ class AdvUser(AbstractUser):
         verbose_name='Слать оповещение о комментариях?'
     )
 
+    def delete(self, *args, **kwargs):
+        for bb in self.bb_set.all():
+            bb.delete()
+        super().delete()
+
     class Meta(AbstractUser.Meta):
         pass
 
@@ -90,8 +95,12 @@ class Bb(models.Model):
     content = models.TextField(
         verbose_name='Описание'
     )
-    price = models.TextField(
-        verbose_name='Контакты',
+    price = models.FloatField(
+        verbose_name='Цена',
+        default=0
+    )
+    contacts = models.TextField(
+        verbose_name='Контакты'
     )
     image = models.ImageField(
         blank=True,
