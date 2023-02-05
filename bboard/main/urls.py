@@ -14,7 +14,10 @@ from .views import (
     DeleteUserView,
     by_rubric,
     detail,
-    # profile_bb_detail
+    profile_bb_detail,
+    profile_bb_add,
+    profile_bb_change,
+    profile_bb_delete
 )
 
 app_name = 'main'
@@ -51,9 +54,29 @@ urlpatterns = [
         name='profile_change'
     ),
     path(
-        'accounts/profile/dlete',
+        'accounts/profile/delete',
         DeleteUserView.as_view(),
         name='profile_delete'
+    ),
+    path(
+        'accounts/profile/chenge/<int:pk>/',
+        profile_bb_change,
+        name='profile_bb_change'
+    ),
+    path(
+        'accounts/profile/delete/<int:pk>',
+        profile_bb_delete,
+        name='profile_bb_delete'
+    ),
+    path(
+        'accounts/profile/add',
+        profile_bb_add,
+        name='profile_bb_add'
+    ),
+    path(
+        'accounts/profile/<int:pk>',
+        profile_bb_detail,
+        name='profile_bb_detail'
     ),
     path(
         'accounts/profile/',

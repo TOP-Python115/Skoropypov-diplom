@@ -5,7 +5,9 @@ from django.core.exceptions import ValidationError
 from .models import (
     AdvUser,
     SuperRubric,
-    SubRubric
+    SubRubric,
+    Bb,
+    AdditionalImage
 )
 from .apps import user_registered
 
@@ -105,3 +107,17 @@ class SearchForm(forms.Form):
         max_length=20,
         label=''
     )
+
+
+class BbForm(forms.ModelForm):
+    class Meta:
+        model = Bb
+        fields = '__all__'
+        widgets = {'author': forms.HiddenInput}
+
+
+AIFormSet = forms.inlineformset_factory(
+    Bb,
+    AdditionalImage,
+    fields='__all__'
+)
